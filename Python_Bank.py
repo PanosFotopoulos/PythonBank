@@ -394,6 +394,8 @@ class Account():
                 #print (database[self.customer_id]['Total Balance'].get[self.default_value])
                 self.show_account_info(False)
                 self.choosingaccount()
+                break
+    
         
     def quit(self):
         print("Thank you for using Python Bank. Have a nice day!")

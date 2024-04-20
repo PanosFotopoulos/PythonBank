@@ -289,6 +289,27 @@ class SavingsAccount(Account):
 
 
 -------------------------------------------------------------------------4/19
+database = {}    
+
+import csv
+import ast
+
+def csv_to_dict(csv_file):
+    data_dict = {}
+    with open(csv_file, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            accounts = ast.literal_eval(row['accounts'])
+            data_dict[row['uuid']] = {
+                'name': row['name'],
+                'tax_id': int(row['tax_id']),
+                'Total Balance': int(row['Total Balance']),
+                'accounts': accounts
+            }
+    return data_dict
+
+database = csv_to_dict("OfficialDB.csv")      
+database
 
 import sys
 import datetime
@@ -302,7 +323,6 @@ import os
 
 class Account():
     def __init__(self):
-        self.database = {}
         self.withdrawls_times = 0
         self.days_count = 0
         self.default_value = 0
@@ -369,7 +389,7 @@ class Account():
                         'Business Account': self.default_value
                     }
                 }
-                database[self.customer_id] = account_details
+            database[self.customer_id] = account_details
             self.initialize_sublcass_instances(self.customer_id,self.account_type,self.action,self.default_value,self.days_count,self.withdrawls_times)
             #self.count_day()
             print(f'Welcome Mr/Mrs {self.name.title()}')
@@ -382,13 +402,14 @@ class Account():
             self.choosingaccount()
                   
     def login(self):
-        self.database={}
-        csv_file = 'OfficialDB.csv'
-        self.database = self.csv_to_nested_dict(csv_file)
+        
+  #     database={}
+#        csv_file = 'OfficialDB.csv'
+#        database = self.csv_to_nested_dict(csv_file)
         while True:
-            user_id = getpass.getpass('Hello, Please enter your user ID.\nIf you want to Register type Register.\nIf you want to Exit type Exit\n ID:  ')
-            if user_id in database.keys(): #or user_id =='Register' or user_id == 'Exit':
-                self.customer_id = user_id
+            self.user_id = str(getpass.getpass('Hello, Please enter your user ID.\nIf you want to Register type Register.\nIf you want to Exit type Exit\n ID:  '))
+            if self.user_id in database: #or user_id =='Register' or user_id == 'Exit':
+                self.customer_id = self.user_id
                 self.initialize_sublcass_instances(self.customer_id,self.account_type,self.action,self.default_value,self.days_count,self.withdrawls_times)
                 print(f"Welcome Mr/Mrs {database[self.customer_id]['name']}, we are happy to see you again!")
                 #print (database[self.customer_id]['Total Balance'].get[self.default_value])
@@ -411,19 +432,26 @@ class Account():
                 
         sys.exit
     
-    def csv_to_nested_dict(self,csv_file):
+    def csv_to_nested_dict1(self,csv_file):
         database = {}
         with open(csv_file, 'r', newline='') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                uuid = row['uuid']
-                database[uuid] = {
-                    'name': row['name'],
-                    'tax_id': row['tax_id'],
-                    'Total Balance': row['Total Balance'],
-                    'accounts': row['accounts']
-                }
-            
+                customer_id = uuid.UUID(row['uuid'])
+                name = row['name']
+                tax_id = int(row['tax_id'])
+                total_balance = int(row['Total Balance'])
+                accounts = eval(row['accounts'])  # Αντιστοιχίστε το πεδίο ως λεξικό
+                # Τώρα μπορείτε να χρησιμοποιήσετε τα δεδομένα για να αρχικοποιήσετε το database σας
+                #database[customer_id] =account_details
+                 #  {
+                  #  'name': name,
+                    #'tax_id': tax_id,
+                    #'Total Balance': total_balance,
+                    #'accounts': accounts}
+                
+
+        
     def choosingaccount(self):
         self.account_type_num = ''
         while self.account_type_num not in ['1','2','3']:
@@ -542,6 +570,7 @@ class Account():
             new_balance = account_balance - self.amount
             database[self.customer_id]['accounts'][self.account_type] = new_balance
             print('Withdraw Accepted')
+            self.update_total_balance()
             print('Your total balance is ' + "%.2f" % database[self.customer_id]['Total Balance'] + '€')
             print(f'Your {self.account_type} balance is ' + "%.2f" % new_balance + '€')
         else:
@@ -594,7 +623,8 @@ class CheckingAccount(Account):
         self.account_type = account_type
         self.action = action
         self.default_value = default_value
-        self.subclass_account_balance = database[self.customer_id]['accounts'].get(self.account_type, self.default_value)
+        print(f'Tο  4 O customer_id είναι: {self.customer_id}')
+        self.subclass_account_balance =database[self.customer_id]['accounts'].get(self.account_type, self.default_value)
         
         
     def deposit(self):
@@ -646,7 +676,7 @@ class SavingsAccount(Account):
         if datetime.now().day == 1 and (self.last_withdraw_date is None or self.last_withdraw_date.month != datetime.now().month):
             self.withdrawls_times = 0
         elif self.withdrawls_times < 3:
-            print(f"Withdrawal of {self.amount} € successful.")
+            #print(f"Withdrawal of {self.amount} € successful.")
             self.withdrawls_times += 1
             self.last_withdraw_date = datetime.now()
             super().withdraw()
@@ -683,3 +713,5 @@ class BusinessAccount(Account):
         super().update_total_balance()
         self.action = ''
         super().returning()
+DoAction = Account()
+DoAction.ask_user_for_action()

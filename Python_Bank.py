@@ -2,7 +2,8 @@
 # coding: utf-8
 
 # In[1]:
-----------final project------------
+===================================================================================================FINAL PROJECT============================================================================================================
+======================================================================================================4/21==================================================================================================================
 import sys
 import datetime
 import uuid
@@ -107,11 +108,10 @@ class Account():
     def login(self):
         while True:
             self.user_id = str(getpass.getpass('Hello, Please enter your user ID.\nIf you want to Register type Register.\nIf you want to Exit type Exit\n ID:  '))
-            if self.user_id in database: #or user_id =='Register' or user_id == 'Exit':
+            if self.user_id in database:
                 self.customer_id = self.user_id
                 self.initialize_sublcass_instances(self.customer_id,self.account_type,self.action,self.default_value,self.days_count,self.withdrawls_times)
                 print(f"Welcome Mr/Mrs {database[self.customer_id]['name']}, we are happy to see you again!")
-                #print (database[self.customer_id]['Total Balance'].get[self.default_value])
                 self.show_account_info(False)
                 self.choosingaccount()
                 break
@@ -329,32 +329,32 @@ class Account():
         
         
 #    def day_check(self):
- #       self.current_date_time = datetime.now()
-  #      self.daytoday = current_date_time.day
-   #     self.daytoday
-    #    if self.daytoday == 1:
-     #       print(f'{current_date_time.date()}')
-      #      break
-       # else:
-        #    print(f'{current_date_time.date()}')
-         #   break
+#        self.current_date_time = datetime.now()
+#        self.daytoday = current_date_time.day
+#        self.daytoday
+#        if self.daytoday == 1:
+#            print(f'{current_date_time.date()}')
+#            break
+#         else:
+#            print(f'{current_date_time.date()}')
+#            break
     
     
     
 #    def count_day(self):
- #       self.current_date = datetime.date.today()
-  #      self.days_count += 1
-    #    if self.days_count == 30:
-     #       self.days_count = 0
+#        self.current_date = datetime.date.today()
+#        self.days_count += 1
+#        if self.days_count == 30:
+#           self.days_count = 0
 
         
         
 #    def business_financial_boost_percentage(self):
- #       if self.daytoday == 1:
-  #          self.subclass_account_balance *= 1.2
-   #         break
-    #    else:
-     #       break
+#        if self.daytoday == 1:
+#             self.subclass_account_balance *= 1.2
+#             break
+#        else:
+#           break
         
         
 class CheckingAccount(Account):
@@ -495,7 +495,7 @@ DoAction.ask_user_for_action()
 
 
 
-----test1-----
+=========================================================================================================TEST1==============================================================================================================
 import sys
 import datetime
 import uuid
@@ -780,7 +780,8 @@ class SavingsAccount(Account):
 
 
 
--------------------------------------------------------------------------4/19
+=========================================================================================================TEST2==============================================================================================================
+==========================================================================================================4/19==============================================================================================================
 database = {}    
 
 import csv

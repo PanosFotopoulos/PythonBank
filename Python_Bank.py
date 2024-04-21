@@ -2,6 +2,34 @@
 # coding: utf-8
 
 # In[1]:
+
+===================================================================DATABABSE & JSON CONVERTER(LOGIN SECTION)================================================
+database = {}   
+
+import csv
+import ast
+
+def csv_to_dict(csv_file):
+    data_dict = {}
+    with open(csv_file, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            accounts = ast.literal_eval(row['accounts'])
+            data_dict[row['uuid']] = {
+                'name': row['name'],
+                'tax_id': int(row['tax_id']),
+                'Total Balance': int(row['Total Balance']),
+                'accounts': accounts
+            }
+    return data_dict
+
+
+database = csv_to_dict("OfficialDB.csv")      
+database
+
+
+
+
 =======================================================================FINAL PROJECT============================================================================
 ==========================================================================4/21==================================================================================
 import sys

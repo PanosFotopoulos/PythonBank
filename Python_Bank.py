@@ -302,7 +302,9 @@ class Account():
     def withdraw(self):
         self.get_amount_input()
         account_balance = database[self.customer_id]['accounts'].get(self.account_type, 0)
-        if self.amount <= account_balance:
+        if self.amount == 0:
+            self.print_with_dots()
+        elif self.amount <= account_balance:
             new_balance = account_balance - self.amount
             database[self.customer_id]['accounts'][self.account_type] = new_balance
             print('Withdraw Accepted')
@@ -311,6 +313,7 @@ class Account():
             print(f'Your {self.account_type} balance is ' + "%.2f" % new_balance + '€')
         else:
             print('Insufficient funds. Unable to withdraw.')
+
 
            
         
@@ -338,7 +341,13 @@ class Account():
                 self.quit()
             
             
-            
+     def print_with_dots(message='Retuning',num_dots = 3):
+        print('Retuning', end='', flush=True)
+        for _ in range(num_dots):
+            time.sleep(0.4)
+            print('.', end='', flush=True)
+        print()
+         
     def update_total_balance(self):
         total_balance = 0
         for account_type, balance in database[self.customer_id]['accounts'].items():

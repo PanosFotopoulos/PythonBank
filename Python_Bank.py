@@ -292,12 +292,15 @@ class Account():
     def deposit(self):
         self.get_amount_input()
         old_subclass_account_balance = 0
-        print('Deposit Accepted')
-        old_subclass_account_balance = database[self.customer_id]['accounts'].get(self.account_type, self.default_value)
-        new_subclass_account_balance = old_subclass_account_balance + self.amount
-        database[self.customer_id]['accounts'][self.account_type] = new_subclass_account_balance
-        print(f'Your Current Balance on {self.account_type} is ' + "%.2f" % new_subclass_account_balance + '€')
-        self.update_total_balance()
+        if self.amount == 0:
+            self.print_with_dots()
+        else:
+            print('Deposit Accepted')
+            old_subclass_account_balance = database[self.customer_id]['accounts'].get(self.account_type, self.default_value)
+            new_subclass_account_balance = old_subclass_account_balance + self.amount
+            database[self.customer_id]['accounts'][self.account_type] = new_subclass_account_balance
+            print(f'Your Current Balance on {self.account_type} is ' + "%.2f" % new_subclass_account_balance + '€')
+            self.update_total_balance()
 
     def withdraw(self):
         self.get_amount_input()
